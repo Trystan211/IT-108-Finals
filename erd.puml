@@ -1,0 +1,54 @@
+
+@startuml
+entity customers {
+  *customer_id : INT
+  first_name
+  last_name
+  email
+}
+entity categories {
+  *category_id : INT
+  name
+}
+entity products {
+  *product_id : INT
+  sku
+  name
+  category_id
+  price
+}
+entity inventory {
+  *inventory_id : INT
+  product_id
+  quantity
+}
+entity orders {
+  *order_id : INT
+  customer_id
+  order_date
+  total_amount
+}
+entity order_items {
+  *order_item_id : INT
+  order_id
+  product_id
+  quantity
+}
+entity payments {
+  *payment_id : INT
+  order_id
+  amount
+}
+entity shipments {
+  *shipment_id : INT
+  order_id
+  carrier
+}
+customers ||--o{ orders
+categories ||--o{ products
+products ||--o{ inventory
+orders ||--o{ order_items
+orders ||--o{ payments
+orders ||--o{ shipments
+products ||--o{ order_items
+@enduml

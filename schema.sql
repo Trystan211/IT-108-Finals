@@ -96,8 +96,77 @@ CREATE TABLE shipments (
 CREATE INDEX idx_products_category ON products(category_id);
 CREATE INDEX idx_inventory_product ON inventory(product_id);
 
--- Sample data (small)
-INSERT INTO categories (name, description) VALUES ('Electronics','Electronic devices'), ('Apparel','Clothing items');
-INSERT INTO products (sku, name, category_id, price) VALUES ('SKU-1001','Wireless Mouse',1,19.99),('SKU-1002','T-Shirt',2,9.99);
-INSERT INTO customers (first_name,last_name,email,phone) VALUES ('Juan','Dela Cruz','juan@example.com','09171234567'),('Maria','Santos','maria@example.com','09181234567');
-INSERT INTO inventory (product_id,quantity,warehouse_location) VALUES (1,100,'WH-A1'),(2,250,'WH-B2');
+-- Sample data 
+INSERT INTO categories (name, description) VALUES
+('Electronics', 'Gadgets, devices, tech accessories'),
+('Apparel', 'Clothing and fashion items'),
+('Home & Kitchen', 'Appliances and home essentials'),
+('Sports', 'Sports gear and equipment'),
+('Books', 'Printed and digital reading materials');
+
+INSERT INTO products (sku, name, category_id, price, active) VALUES
+('SKU-1001', 'Wireless Mouse', 1, 19.99, TRUE),
+('SKU-1002', 'Mechanical Keyboard', 1, 79.99, TRUE),
+('SKU-1003', 'USB-C Charger', 1, 14.50, TRUE),
+('SKU-2001', 'Graphic T-Shirt', 2, 12.99, TRUE),
+('SKU-2002', 'Hoodie Jacket', 2, 34.99, TRUE),
+('SKU-3001', 'Air Fryer', 3, 89.99, TRUE),
+('SKU-3002', 'Blender MaxPro', 3, 49.50, TRUE),
+('SKU-4001', 'Basketball', 4, 22.99, TRUE),
+('SKU-4002', 'Treadmill Mat', 4, 29.99, TRUE),
+('SKU-5001', 'Hardbound Novel', 5, 15.00, TRUE);
+
+INSERT INTO customers (first_name, last_name, email, phone) VALUES
+('Juan', 'Dela Cruz', 'juan@example.com', '09171234567'),
+('Maria', 'Santos', 'maria@example.com', '09181234567'),
+('Carlos', 'Reyes', 'carlos.reyes@example.com', '09191234567'),
+('Ana', 'Villanueva', 'ana.v@example.com', '09201234567'),
+('Lara', 'Mendoza', 'lara.m@example.com', '09211234567');
+
+INSERT INTO inventory (product_id, quantity, warehouse_location) VALUES
+(1, 100, 'WH-A1'),
+(2, 75, 'WH-A1'),
+(3, 200, 'WH-A2'),
+(4, 180, 'WH-B1'),
+(5, 120, 'WH-B1'),
+(6, 90, 'WH-C1'),
+(7, 60, 'WH-C1'),
+(8, 150, 'WH-D1'),
+(9, 40, 'WH-D1'),
+(10, 300, 'WH-E1');
+
+INSERT INTO orders (customer_id, status, total_amount) VALUES
+(1, 'PENDING', 39.98),
+(2, 'PROCESSING', 89.99),
+(3, 'SHIPPED', 47.98),
+(4, 'DELIVERED', 134.49),
+(5, 'CANCELLED', 12.99);
+
+INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES
+-- Order 1: Juan
+(1, 1, 2, 19.99),
+-- Order 2: Maria
+(2, 6, 1, 89.99),
+-- Order 3: Carlos
+(3, 3, 1, 14.50),
+(3, 4, 1, 12.99),
+-- Order 4: Ana
+(4, 2, 1, 79.99),
+(4, 5, 1, 34.99),
+(4, 10, 1, 15.00),
+-- Order 5: Lara (cancelled)
+(5, 4, 1, 12.99);
+
+INSERT INTO payments (order_id, amount, method, status) VALUES
+(1, 39.98, 'CREDIT_CARD', 'CAPTURED'),
+(2, 89.99, 'PAYPAL', 'CAPTURED'),
+(3, 47.98, 'BANK_TRANSFER', 'CAPTURED'),
+(4, 134.49, 'CASH', 'CAPTURED'),
+(5, 12.99, 'CREDIT_CARD', 'REFUNDED');
+
+INSERT INTO shipments (order_id, shipped_date, carrier, tracking_number, status) VALUES
+(1, NULL, NULL, NULL, 'PENDING'),
+(2, NOW(), 'LBC Express', 'LBC123456789', 'IN_TRANSIT'),
+(3, NOW(), 'J&T Express', 'JT543210987', 'DELIVERED'),
+(4, NOW(), 'Ninja Van', 'NV987654321', 'DELIVERED'),
+(5, NULL, NULL, NULL, 'RETURNED');
